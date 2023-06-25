@@ -97,7 +97,7 @@ class PromotionController extends Controller
          //return $request;
          $request->validate([
             'title' => 'required|min:5|max:10',
-            'discount' => 'required|min:0|max:100', // mengatur angka discount
+            'discount' => 'required|numeric', // mengatur angka discount
             // 'background' => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:2044'
          ],
          [
@@ -110,8 +110,8 @@ class PromotionController extends Controller
          ]
     );
         $status = $request->has('status') ? 'show' : 'hide'; //untuk mengatur hiden atau show
-        unlink(public_path('/img/promotions/'.$promotion->picture));
         if ($request->has('picture')) {
+            unlink(public_path('/img/promotions/'.$promotion->picture));
             $picture = $request->file('picture');
             $filename = time() . '-' . rand() . $picture->getClientOriginalName(); //untuk insert file background 
             $picture->move(public_path('/img/promotions'), $filename); // kedalam folder publick img/hero (sesuaikan dengan folder anda)
@@ -140,7 +140,7 @@ class PromotionController extends Controller
      */
     public function destroy(Promotion $promotion)
     {
-        if(file_exists (asset('img/promotions/'.$promotion->picture)) ) {
+        if(file_exists (public_path('img/promotions/'.$promotion->picture)) ) {
             unlink(public_path('/img/promotions/'.$promotion->picture));
         }
             Promotion::destroy('id', $promotion->id);

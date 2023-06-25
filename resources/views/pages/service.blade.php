@@ -1,7 +1,7 @@
 @extends('app')
 
-@section('title','service')
-@section('page-heading','service')
+@section('title','Service')
+@section('page-heading','Service')
 
 @section('content')
 <div class="page-content">
@@ -75,7 +75,7 @@
                                                 <a href="{{ url('/service/' . $service->id . '/edit') }}"
                                                     class="btn btn-warning"><i
                                                         class="fa-solid fa-pen-to-square"></i></a>
-                                                <form action="{{ url('/service/' . $service->id) }}" method="POST">
+                                                <form class="d-inline" action="{{ url('/service/' . $service->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger">

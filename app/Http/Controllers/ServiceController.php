@@ -17,17 +17,16 @@ class ServiceController extends Controller
     //      return view('pages.service', compact('services'));
     // }
     {
-        $q = $request->q ;
-        $pagination = $request->has('pagination') ? $request ->pagination:10;
-        if($q)
-        {
-            $services = Service::where('title','like','%'.$q.'%')->paginate($pagination);
-        } else{
+        $q = $request->q;
+        $pagination = $request->has('pagination') ? $request->pagination : 10;
+        if ($q) {
+            $services = Service::where('title', 'like', '%' . $q . '%')->paginate($pagination);
+        } else {
 
             $services = Service::paginate($pagination); //cara membaca data ::all  $heroes bungkus hero memanggil data dari database
             //return $promotions;
         }
-         return view('pages.service', compact('services','q','pagination'));   //compact untuk meyelipkan data
+        return view('pages.service', compact('services', 'q', 'pagination'));   //compact untuk meyelipkan data
     }
 
     /**
@@ -35,7 +34,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-         return view('pages.service-create');
+        return view('pages.service-create');
     }
 
     /**
@@ -43,28 +42,29 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $request->validate([
-            'logo' => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:2044',
-            'title' => 'required|min:5|max:50',
-            'price' => 'required|numeric',
-            'description' => 'required|min:5|max:50'
-        ],
-        [
-            'logo.required' => 'Kolom Logo Tidak boleh kosong Tante!!',
-            'logo.image' => 'Kolom Logo  harus file image! ',
-            'logo.mimes' => 'File pada kolom Logo  harus jpeg, png, gif, atau svg! ',
-            'logo.max' => 'File pada kolom Logo  terlalu besar!',
-            'title.required' => 'Kolom TITEL Tidak boleh kosong Tante!!',
-            'title.min' => 'Kolom TITLE Terlalu Pendek! ',
-            'title.max' => 'Kolom TITLE Terlalu Panjang! ',
-            'price.required' => 'Kolom PRICE Tidak boleh kosong Tante!!',
-            'price.numeric' => 'Kolom PRICE harus angka! ',
-            'description.required' => 'Kolom  DescriptionTidak boleh kosong Tante!!',
-            'description.min' => 'Kolom Description Terlalu Pendek !',
-            'description.max' => 'Kolom Description Terlalu Panjang !',
-        ]
-    );
+
+        $request->validate(
+            [
+                'logo' => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:2044',
+                'title' => 'required|min:5|max:50',
+                'price' => 'required|numeric',
+                'description' => 'required|min:5|max:50'
+            ],
+            [
+                'logo.required' => 'Kolom Logo Tidak boleh kosong Tante!!',
+                'logo.image' => 'Kolom Logo  harus file image! ',
+                'logo.mimes' => 'File pada kolom Logo  harus jpeg, png, gif, atau svg! ',
+                'logo.max' => 'File pada kolom Logo  terlalu besar!',
+                'title.required' => 'Kolom TITEL Tidak boleh kosong Tante!!',
+                'title.min' => 'Kolom TITLE Terlalu Pendek! ',
+                'title.max' => 'Kolom TITLE Terlalu Panjang! ',
+                'price.required' => 'Kolom PRICE Tidak boleh kosong Tante!!',
+                'price.numeric' => 'Kolom PRICE harus angka! ',
+                'description.required' => 'Kolom  DescriptionTidak boleh kosong Tante!!',
+                'description.min' => 'Kolom Description Terlalu Pendek !',
+                'description.max' => 'Kolom Description Terlalu Panjang !',
+            ]
+        );
 
         $logo = $request->file('logo');
         $filename = time() . '-' . rand() . $logo->getClientOriginalName(); //untuk insert file background 
@@ -77,7 +77,7 @@ class ServiceController extends Controller
             'price' => $request->price,
             'description' => $request->description,
         ]);
-        return redirect('/service')->with('success', $request->title.'berhasil ditambahkan');
+        return redirect('/service')->with('success', $request->title . 'berhasil ditambahkan');
     }
 
     /**
@@ -85,7 +85,6 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        
     }
 
     /**
@@ -93,7 +92,7 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        
+        return view('pages.service-edit', compact('service'));
     }
 
     /**
@@ -101,7 +100,49 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-        
+        //return $request;
+        $request->validate(
+            [
+                'title' => 'required|min:5|max:50',
+                'price' => 'required|numeric',
+                'description' => 'required|min:5|max:50' // mengatur angka discount
+                // 'background' => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:2044'
+            ],
+            [
+                'title.required' => 'Kolom TITEL Tidak boleh kosong Tante!!',
+                'title.min' => 'Kolom TITLE Terlalu Pendek! ',
+                'title.max' => 'Kolom TITLE Terlalu Panjang! ',
+                'price.required' => 'Kolom PRICE Tidak boleh kosong Tante!!',
+                'price.numeric' => 'Kolom PRICE harus angka! ',
+                'description.required' => 'Kolom  DescriptionTidak boleh kosong Tante!!',
+                'description.min' => 'Kolom Description Terlalu Pendek !',
+                'description.max' => 'Kolom Description Terlalu Panjang !',
+            ]
+        );
+        //untuk mengatur hiden atau show
+       
+        if ($request->has('service')) {
+            unlink(public_path('/img/services/' . $service->logo));
+            $logo = $request->file('service');
+            $filename = time() . '-' . rand() . $logo->getClientOriginalName(); //untuk insert file background 
+            $logo->move(public_path('/img/services'), $filename); // kedalam folder publick img/hero (sesuaikan dengan folder anda)
+
+            Service::where('id', $service->id)->update([
+                'logo' => $filename, //=> cara memangil array sedangkan -> untuk memangil object
+                'title' => $request->title,
+                'price' => $request->price,
+                'description' => $request->description, //=> cara memangil array sedangkan -> untuk memangil object
+
+            ]);
+        } else {
+            Service::where('id', $service->id)->update([
+                'title' => $request->title,
+                'price' => $request->price,
+                //=> cara memangil array sedangkan -> untuk memangil object
+                'description' => $request->description,
+            ]);
+        }
+        return redirect('service');
     }
 
     /**
@@ -109,6 +150,11 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        
+        if (file_exists(public_path('img/services/' . $service->logo))) {
+            unlink(public_path('/img/services/' . $service->logo));
+        }
+        Service::destroy('id', $service->id);
+        // Hero::where('id', $hero->id)->delete();
+        return redirect('/service');
     }
 }

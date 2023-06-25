@@ -3,7 +3,8 @@
         <div class="sidebar-header">
             <div class="d-flex justify-content-between">
                 <div class="logo">
-                    <a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo" srcset=""></a>
+                    <a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo"
+                            srcset=""></a>
                 </div>
                 <div class="toggler">
                     <a href="#" class="sidebar-hide d-xl-none d-block"><i
@@ -15,36 +16,47 @@
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
 
-                <li class="sidebar-item @if(Request::segment(1) =='dashboard')active @endif ">
-                    <a href="{{url('/dashboard')}}" class='sidebar-link'>
+                <li class="sidebar-item @if (Request::segment(1)== 'dashboard') active @endif ">
+                    <a href="{{ url('/dashboard') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
 
-                
-                <li class="sidebar-item @if(Request::segment(1) =='hero')active @endif ">
-                    <a href="{{url('/hero')}}" class='sidebar-link'>
+                <li class="sidebar-item @if (Request::segment(1)== 'hero') active @endif ">
+                    <a href="{{ url('/hero') }}" class='sidebar-link'>
                         <i class="fa-solid fa-mask"></i>
                         <span>Hero</span>
                     </a>
                 </li>
-
-                <li class="sidebar-item @if(Request::segment(1) =='promotion')active @endif ">
-                    <a href="{{url('/promotion')}}" class='sidebar-link'>
+                
+                <li class="sidebar-item @if (Request::segment(1)== 'promotion') active @endif ">
+                    <a href="{{ url('/promotion') }}" class='sidebar-link'>
                         <i class="fa-solid fa-percent"></i>
                         <span>Promotion</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item @if(Request::segment(1) =='service')active @endif ">
-                    <a href="{{url('/service')}}" class='sidebar-link'>
+                <li class="sidebar-item @if (Request::segment(1)== 'partner') active @endif ">
+                    <a href="{{ url('/partner') }}" class='sidebar-link'>
+                        <i class="fa-solid fa-handshake-simple"></i>
+                        <span>Partner</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item @if (Request::segment(1)== 'service') active @endif ">
+                    <a href="{{ url('/service') }}" class='sidebar-link'>
                         <i class="fa-solid fa-bell-concierge"></i>
                         <span>Service</span>
                     </a>
                 </li>
 
-       
+                <li class="sidebar-item @if (Request::segment(1)== 'service') active @endif ">
+                    <a href="{{ route('logout') }}" class='sidebar-link'>
+                        <i class="fa-solid fa-bell-concierge"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
 
             </ul>
         </div>

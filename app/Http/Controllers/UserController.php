@@ -4,62 +4,85 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function createregister()
     {
-        
+        return view('pages.register');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function storeRegister(Request $request)
     {
-        
+        // return $request;
+        $request->validate(
+            [
+                'email'=> 'required|unique:users,name',
+                'username'=> 'required|min:5|max:10|unique:users,name',
+                'telephone'=> 'required|numeric',
+                'address'=> 'required|min:10|max:255',
+                'role'=> 'required',
+                'password'=> 'required|min:8|max:30',
+                'confirm_password'=> 'required|same:password',
+
+            ],
+            [
+                'email.required' => 'Kolom Email Tidak boleh kosong Tante!!',
+                'username.required' => 'Kolom Username Tidak boleh kosong Tante!!',
+                'username.min' => ' Username terlalu pendek',
+                'username.max' => ' Username terlalu panjang',
+                'username.unique' => ' Username terlalu panjang',
+                'telephone.required' => 'Kolom telephone Tidak boleh kosong Tante!!',
+                'address.required' => 'Kolom address Tidak boleh kosong Tante!!',
+                'role.required' => 'pilih role Tidak boleh kosong Tante!!',
+                'password.required' => 'Kolom password Tidak boleh kosong Tante!!',
+                'password.min' => ' password terlalu pendek',
+                'password.max' => ' password terlalu panjang',
+                'confirm_password.required' => 'Kolom confirm_password Tidak boleh kosong Tante!!',
+                'confirm_password.same' => 'tidak sama dengan password',
+                
+
+            ] );
+
+            User:: create([ 
+                'email' => $request->email,
+                'name' => $request->username,
+                'telephone' => $request->telephone,
+                'address' => $request->address,
+                'role' => $request->role,
+                'password' => Hash::make($request->password),
+
+            ]);
+            return redirect('/login');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function login()
     {
-        
+        return view('pages.login');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
+    public function prosesLogin(Request $request)
     {
-        
+        $request->validate(
+            [
+                'email' => 'required',
+                'password'=> 'required|min:5|max:10',
+            ]
+            );
+
+            $credential =[
+                'email' => $request->email,
+                'password'=> $request->password
+              
+            ];
+            if(Auth::attempt($credential)){
+                return redirect('/dashboard');
+            }else{
+                return redirect()->back()->with('gagal','Email atau Password tidak Sesuia');
+            }
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
+    public function logout()
     {
-        
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        
+        Auth::logout();
+        return redirect('/login');
     }
 }

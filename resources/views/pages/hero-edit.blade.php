@@ -1,6 +1,6 @@
 @extends('app')
-@section('title', 'edit-hero')
-@section('page-heading', 'edit-hero')
+@section('title', 'Edit-Hero')
+@section('page-heading', 'Edit-Hero')
 @section('content')
     <div class="page-content">
         <div class="row">
@@ -25,7 +25,7 @@
                                     <label for="subtitle" class="form-label">Subtitle</label>
                                     <input type="text" class="form-control  @error('subtitle') is-invalid @enderror" id="subtitle" name="subtitle" value="{{$hero->subtitle}}">
                                     <div  class="invalid-feedback blink">
-                                        @error('title') <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{$message}}
+                                        @error('subtitle') <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{$message}}
                                          @enderror
                                       </div>
                                 </div>
@@ -35,7 +35,7 @@
                                     <img src="{{asset('img/heros/'. $hero->background)}}" alt="{{
                                         $hero->background }}">
                                         <div  class="invalid-feedback blink">
-                                            @error('title') <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{$message}}
+                                            @error('background') <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{$message}}
                                              @enderror
                                           </div>
                                         {{--

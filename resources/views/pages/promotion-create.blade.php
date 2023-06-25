@@ -1,7 +1,7 @@
 @extends('app')
 
-@section('title', 'create-promotion')
-@section('page-heading', 'create-promotion')
+@section('title', 'Create-Promotion')
+@section('page-heading', 'Create-Promotion')
 @push('style')
 <style>
     .blink {

@@ -1,7 +1,7 @@
 @extends('app')
 
-@section('title', 'create-hero')
-@section('page-heading', 'creat-hero')
+@section('title', 'Create-Hero')
+@section('page-heading', 'Creat-Hero')
 @push('style')
 <style>
     .blink {

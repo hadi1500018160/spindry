@@ -124,8 +124,9 @@ class HeroController extends Controller
             ]
     );
         $status = $request->has('status') ? 'show' : 'hide'; //untuk mengatur hiden atau show
-        unlink(public_path('/img/heros/'.$hero->background));
+       
         if ($request->has('background')) {
+            unlink(public_path('/img/heros/'.$hero->background));
             $background = $request->file('background');
             $filename = time() . '-' . rand() . $background->getClientOriginalName(); //untuk insert file background 
             $background->move(public_path('/img/heros'), $filename); // kedalam folder publick img/hero (sesuaikan dengan folder anda)
@@ -154,7 +155,7 @@ class HeroController extends Controller
      */
     public function destroy(Hero $hero)
     {
-        if(file_exists (asset('img/heros/'.$hero->background)) ) {
+        if(file_exists (public_path('img/heros/'.$hero->background)) ) {
         unlink(public_path('/img/heros/'.$hero->background));
     }
         Hero::destroy('id', $hero->id);

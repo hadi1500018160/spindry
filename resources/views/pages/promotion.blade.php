@@ -1,7 +1,7 @@
 @extends('app')
 
-@section('title', 'promotion')
-@section('page-heading', 'promotion')
+@section('title', 'Promotion')
+@section('page-heading', 'Promotion')
 
 @section('content')
     <div class="page-content">
@@ -72,10 +72,10 @@
                                                 <td>{{ $promotion->picture }}</td>
                                                 <td>{{ $promotion->status }}</td>
                                                 <td>
-                                                    <a href="{{ url('promotion/' . $promotion->id . '/edit') }}"
+                                                    <a href="{{ url('/promotion/' . $promotion->id . '/edit') }}"
                                                         class="btn btn-warning"><i
                                                             class="fa-solid fa-pen-to-square"></i></a>
-                                                    <form action="{{ url('promotion/' . $promotion->id) }}" method="POST">
+                                                    <form class="d-inline" action="{{ url('/promotion/' . $promotion->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button class="btn btn-danger">
