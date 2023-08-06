@@ -41,7 +41,7 @@
     <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
 
     <script src="{{ asset('assets/js/mazer.js') }}"></script>
-    @stack('script')
+    @stack('scripts')
 </body>
 
 </html>

@@ -1,18 +1,19 @@
 @extends('app')
-@section('title','Create Service')
-@section('page-heading','Create Service')
+@section('title', 'Create Service')
+@section('page-heading', 'Create Service')
 
 @push('style')
-<style>
-    .blink {
-        animation: blinker 1.5s linear infinite;
-    }
-    @keyframes blinker {
-        50% {
-            opacity: 0;
+    <style>
+        .blink {
+            animation: blinker 1.5s linear infinite;
         }
-    }
-</style>
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
 @endpush
 
 
@@ -29,38 +30,46 @@
                                 @csrf
                                 <div class="mb-3">
                                     <label for="logo" class="form-label">Logo</label>
-                                    <input type="file" class="form-control  @error('logo') is-invalid @enderror" id="logo" name="logo">
-                                    <div  class="invalid-feedback blink">
-                                        @error('logo') <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{$message}}
+                                    <input type="file" class="form-control  @error('logo') is-invalid @enderror"
+                                        id="logo" name="logo">
+                                    <div class="invalid-feedback blink">
+                                        @error('logo')
+                                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{ $message }}
                                         @enderror
-                                        </div>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="title" class="form-label">Title</label>
-                                    <input type="text" class="form-control @error('title') is-invalid @enderror"  id="title" name="title" value="{{old('title')}}">
-                                    <div  class="invalid-feedback blink">
-                                        @error('title') <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{$message}}
-                                         @enderror
-                                      </div>
+                                    <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                        id="title" name="title" value="{{ old('title') }}">
+                                    <div class="invalid-feedback blink">
+                                        @error('title')
+                                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="price" class="form-label">Price</label>
-                                    <input type="number" class="form-control  @error('price') is-invalid @enderror" id="price" name="price" value="{{old('price')}}">
-                                    <div  class="invalid-feedback blink">
-                                        @error('price') <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{$message}}
+                                    <input type="number" class="form-control  @error('price') is-invalid @enderror"
+                                        id="price" name="price" value="{{ old('price') }}">
+                                    <div class="invalid-feedback blink">
+                                        @error('price')
+                                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{ $message }}
                                         @enderror
-                                        </div>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <input type="text" class="form-control @error('description') is-invalid @enderror"  id="description" name="description" value="{{old('description')}}">
-                                    <div  class="invalid-feedback blink">
-                                        @error('description') <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{$message}}
-                                         @enderror
-                                      </div>
+                                    <textarea type="text" class="form-control @error('description') is-invalid @enderror" id="description"
+                                        name="description" rows="6">{{ old('description') }}</textarea>
+                                    <div class="invalid-feedback blink">
+                                        @error('description')
+                                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i> {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
-                                
-                               
+
+
                                 <div class="mb-3">
                                     <button class="btn btn-primary" type="submit">Simpan </button>
                                 </div>
@@ -74,4 +83,13 @@
         </div>
     </div>
 @endsection
-    
+
+@push('scripts')
+    <script src="{{ asset('assets/vendors/tinymce/tinymce.min.js')}}"></script>
+    <script src="{{ asset('assets/vendors/tinymce/plugins/code/plugin.min.js')}}"></script>
+    <script>
+        tinymce.init({
+            selector: '#description'
+        });
+    </script>
+@endpush

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Display;
+use App\Http\Requests\RequestHero;
 use App\Models\Hero;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
@@ -41,7 +43,7 @@ class HeroController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RequestHero $request)
     {
         //return $request;
         //Hero :: create($request->all());
@@ -50,38 +52,41 @@ class HeroController extends Controller
 
 
 
-        $request->validate([
-            'title' => 'required|min:5|max:10',
-            'subtitle' => 'required|min:10|max:30',
-            'background' => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:2044'
-        ],
-        [
-            'title.required' => 'Kolom TITEL Tidak boleh kosong Tante!!',
-            'title.min' => 'Kolom TITLE Terlalu Pendek! ',
-            'title.max' => 'Kolom TITLE Terlalu Panjang! ',
-            'subtitle.required' => 'Kolom SUBTITLE Tidak boleh kosong Tante!!',
-            'subtitle.min' => 'Kolom SUBTITLE Terlalu Pendek !',
-            'subtitle.max' => 'Kolom SUBTITLE Terlalu Panjang !',
-            'background.required' => 'Kolom BACKGROUND Tidak boleh kosong Tante!!',
-            'background.image' => 'Kolom BACKGROUND harus file image! ',
-            'background.mimes' => 'File pada kolom  BACKGROUND harus jpeg, png, gif, atau svg! ',
-            'background.max' => 'File pada kolom  BACKGROUND terlalu besar!',
-        ]
-    );
+    //     $request->validate([
+    //         'title' => 'required|min:5|max:10',
+    //         'subtitle' => 'required|min:10|max:30',
+    //         'background' => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:2044'
+    //     ],
+    //     [
+    //         'title.required' => 'Kolom TITEL Tidak boleh kosong Tante!!',
+    //         'title.min' => 'Kolom TITLE Terlalu Pendek! ',
+    //         'title.max' => 'Kolom TITLE Terlalu Panjang! ',
+    //         'subtitle.required' => 'Kolom SUBTITLE Tidak boleh kosong Tante!!',
+    //         'subtitle.min' => 'Kolom SUBTITLE Terlalu Pendek !',
+    //         'subtitle.max' => 'Kolom SUBTITLE Terlalu Panjang !',
+    //         'background.required' => 'Kolom BACKGROUND Tidak boleh kosong Tante!!',
+    //         'background.image' => 'Kolom BACKGROUND harus file image! ',
+    //         'background.mimes' => 'File pada kolom  BACKGROUND harus jpeg, png, gif, atau svg! ',
+    //         'background.max' => 'File pada kolom  BACKGROUND terlalu besar!',
+    //     ]
+    // );
 
-        $background = $request->file('background');
-        $filename = time() . '-' . rand() . $background->getClientOriginalName(); //untuk insert file background 
-        $background->move(public_path('/img/heros'), $filename); // kedalam folder publick img/hero (sesuaikan dengan folder anda)
+//   $filename = Display::upload_image($request->file('background'), 'heros'); //cara pertama
+
+
+        // $background = $request->file('background');
+        // $filename = time() . '-' . rand() . $background->getClientOriginalName(); //untuk insert file background 
+        // $background->move(public_path('/img/heros'), $filename); // kedalam folder publick img/hero (sesuaikan dengan folder anda)
 
         $status = $request->has('status') ? 'show' : 'hide'; //untuk mengatur hiden atau show
 
         Hero::create([
             'title' => $request->title,
             'subtitle' => $request->subtitle,
-            'background' => $filename, //=> cara memangil array sedangkan -> untuk memangil object
+            'background' => Display::upload_image($request->file('background'), 'heros'), //=> cara memangil array sedangkan -> untuk memangil object
             'status' => $status,
         ]);
-        return redirect('/hero')->with('success', $request->title.'berhasil ditambahkan');
+        return redirect('/hero')->with('success', $request->title.'   berhasil ditambahkan');
     }
 
     /**

@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillabel = [
+    protected $fillable = [
+        'number',
         'user_id',
         'promo_id',
         'service_id',

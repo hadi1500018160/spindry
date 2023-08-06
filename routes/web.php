@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\HeroController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\UserController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +30,7 @@ Route::get('/dashboard', function () {
 })->middleware('auth', 'checkRole:admin');
 //->middleware('auth'); digunakan untuk previkasi penguna 
 //pages hero//
+Route::get('/order/status/{order}',[OrderController::class, 'status'])->middleware(['auth', 'checkRole:admin']);
 Route::get('/hero',[HeroController::class, 'index'])->middleware('auth', 'checkRole:admin');
 Route::get('/hero/create', [HeroController::class,'create'])->middleware('auth', 'checkRole:admin');
 Route::post('/hero',[HeroController::class,'store'])->middleware('auth', 'checkRole:admin');
@@ -61,5 +64,7 @@ Route::post('partner', [PartnerController::class, 'store'])->middleware('auth', 
 Route::get('/partner/{partner}/edit', [PartnerController::class, 'edit'])->middleware('auth', 'checkRole:admin');
 Route::put('/partner/{partner}', [PartnerController::class, 'update'])->middleware('auth', 'checkRole:admin');
 Route::delete('/partner/{partner}', [PartnerController::class, 'destroy'])->middleware('auth', 'checkRole:admin');
+
+Route::get('/order', [OrderController::class, 'index'])->middleware('auth', 'checkRole:admin');
 
 Route::get('/logout',[UserController::class, 'logout'])->name('logout')->middleware('auth', 'checkRole:admin');

@@ -70,3 +70,13 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/vendors/tinymce/tinymce.min.js')}}"></script>
+    <script src="{{ asset('assets/vendors/tinymce/plugins/code/plugin.min.js')}}"></script>
+    <script>
+        tinymce.init({
+            selector: '#description'
+        });
+    </script>
+@endpush

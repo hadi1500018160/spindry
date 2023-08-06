@@ -50,10 +50,17 @@
                         <span>Service</span>
                     </a>
                 </li>
+                
+                <li class="sidebar-item @if (Request::segment(1)== 'order') active @endif ">
+                    <a href="{{ url('/order') }}" class='sidebar-link'>
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>Order</span>
+                    </a>
+                </li>
 
-                <li class="sidebar-item @if (Request::segment(1)== 'service') active @endif ">
+                <li class="sidebar-item @if (Request::segment(1)== 'logout') active @endif ">
                     <a href="{{ route('logout') }}" class='sidebar-link'>
-                        <i class="fa-solid fa-bell-concierge"></i>
+                        <i class="fa-solid fa-right-from-bracket"></i>
                         <span>Logout</span>
                     </a>
                 </li>

@@ -9,7 +9,12 @@ class PartnerApiController extends Controller
 {
     public function getData()
     {
-        $partners = Partner::all();
-        return response()->json($partners);
+        $partners = Partner::where('status','show')->get();
+        $data = [
+            'status' => 'success',
+            'message' => 'data service berhasil di ambil',
+            'data' => $partners
+        ];
+        return response()->json($data);
     }
 }

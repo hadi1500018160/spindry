@@ -70,7 +70,7 @@
                                             <td>{{  $service->logo }}</td>
                                             <td>{{  $service->title }}</td>
                                             <td>{{  $service->price }}</td>
-                                            <td>{{  $service->description }}</td>
+                                            <td>{!!  $service->description !!}</td>
                                             <td>
                                                 <a href="{{ url('/service/' . $service->id . '/edit') }}"
                                                     class="btn btn-warning"><i

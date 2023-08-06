@@ -9,7 +9,12 @@ class PromotionApiController extends Controller
 {
     public function getData()
     {
-        $Promotions = Promotion::all();
-        return response()->json($Promotions);
+        $promotions = Promotion::where('status','show')->get();
+        $data = [
+            'status' => 'success',
+            'message' => 'data service berhasil di ambil',
+            'data' => $promotions
+        ];
+        return response()->json($data);
     }
 }
